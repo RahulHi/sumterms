@@ -15,16 +15,15 @@ function statusText(messages) {
     return "Analyzing...";
   }
 
-  for (let i = 0; i < messages.length; i++) {
-    console.log(messages[i].type, messages[i].data);
 
-    if (messages[i].type === "Completed Privacy Policy Search") {
-      return "Web scraping...";
-    } else if (messages[i].type === "webscraped") {
-      return "Running ML Models...";
-    } else if (messages[i].type === "data") {
-      return "Complete!\nHere are the results: " + messages[i].data;
-    }
+  if (messages[messages.length-1].type === "Completed Privacy Policy Search") {
+    return "Web scraping...";
+  } else if (messages[messages.length - 1].type === "webscraped") {
+    return "Running ML Models...";
+  } else if (messages[messages.length - 1].type === "data") {
+    return (
+      "Complete!\nHere are the results: " + messages[messages.length - 1].data
+    );
   }
 
   return "Analyzing...";
