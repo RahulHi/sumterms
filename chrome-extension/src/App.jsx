@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 
 function statusText(messages) {
+  console.log("ST");
   /* Format:
   chrome.runtime.sendMessage({
         type: "Completed Privacy Policy Search",
@@ -15,12 +16,14 @@ function statusText(messages) {
   }
 
   for (let i = 0; i < messages.length; i++) {
+    console.log(messages[i].type, messages[i].data);
+
     if (messages[i].type === "Completed Privacy Policy Search") {
       return "Web scraping...";
     } else if (messages[i].type === "webscraped") {
       return "Running ML Models...";
-    } else if (messages[i].type === "Completed Analysis") {
-      return "Complete!";
+    } else if (messages[i].type === "data") {
+      return "Complete!\nHere are the results: " + messages[i].data;
     }
   }
 
@@ -29,7 +32,6 @@ function statusText(messages) {
 
 function MessageReader() {
   const [messages, setMessages] = useState([]);
-  // const [status, setStatus] = useState("analyzing");
 
   useEffect(() => {
     // Get the current array of messages from storage
@@ -66,11 +68,11 @@ function MessageReader() {
         <p style={{textAlign: "center", width: "100%", marginTop: "24px", color: "white", fontSize: "18px", fontWeight: "bold"}}>{statusText(messages)}</p>
       </div>
 
-      <div style={{width: "100%", height: "100%"}}>
+      {/* <div style={{width: "100%", height: "100%"}}>
         <p>Privacy policy analysis complete!</p>
 
         <p>Here are the results:</p>
-      </div>
+      </div> */}
     </div>
   );
 }
