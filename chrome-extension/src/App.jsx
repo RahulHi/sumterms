@@ -8,8 +8,10 @@ function MessageReader() {
   useEffect(() => {
     // Get the current array of messages from storage
     chrome.storage.local.get(['messages'], function(result) {
-      alert('Value currently is ' + result.messages);
       setMessages(result.messages || []);
+
+      // Clear the array of messages in storage
+      chrome.storage.local.set({ messages: [] });
     });
 
     // Listen for changes to the messages array in storage
@@ -28,11 +30,21 @@ function MessageReader() {
   }, []);
 
   return (
-    <div style={{ width: "960px", height: "960px", overflow: "auto" }}>
-      <h2>Received Messages:</h2>
+    <div style={{ width: "240px", height: "240px", overflow: "hidden", backgroundColor: "burlywood" }}>
+      {/* <h2>Received Messages:</h2>
       {messages.map((message, index) => (
         <p key={index}>{message}</p>
-      ))}
+      ))} */}
+
+      <div style={{width: "100%", height: "100%"}}>
+        <p>Analyzing privacy policy...</p>
+      </div>
+
+      <div style={{width: "100%", height: "100%"}}>
+        <p>Privacy policy analysis complete!</p>
+
+        <p>Here are the results:</p>
+      </div>
     </div>
   );
 }
