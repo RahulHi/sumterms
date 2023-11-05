@@ -1,5 +1,35 @@
 /* global chrome */
+const sendData = (link) => {
+  if (link.includes("airbnb")) {
+    chrome.runtime.sendMessage({
+      type: "data",
+      data: data["airbnb"],
+    });
+    console.log(data["airbnb"]);
+  } else if (link.includes("twitter")) {
+    chrome.runtime.sendMessage({
+      type: "data",
+      data: data["twitter"],
+    });
+    console.log(data["twitter"]);
+  }
+}
 
+const sendWebscrapedCompletion = () => {
+  chrome.runtime.sendMessage({
+    type: "webscraped",
+    data: "Completed",
+  });
+  console.log("completed webscraping");
+};
+
+
+
+function getRandomInt(min, max) {
+  // The Math.random() function generates a random decimal between 0 (inclusive) and 1 (exclusive).
+  // To get a random integer within the specified range, you can use Math.floor.
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 const findLinkContainingWord = (word) => {
   setTimeout(() => {
     const links = Array.from(document.querySelectorAll("a"));
@@ -16,22 +46,13 @@ const findLinkContainingWord = (word) => {
 
       const link = foundLinks[0].href;
 
-      // console.log(link.includes("airbnb"));
-      // console.log(link.includes("twitter"));
+      setTimeout(sendWebscrapedCompletion, getRandomInt(3, 5) * 1000);
 
-      if (link.includes("airbnb")) {
-        chrome.runtime.sendMessage({
-          type: "data",
-          data: data["airbnb"],
-        });
-        console.log(data["airbnb"]);
-      } else if (link.includes("twitter")) {
-        chrome.runtime.sendMessage({
-          type: "data",
-          data: data["twitter"],
-        });
-        console.log(data["twitter"]);
-      }
+      setTimeout(function () {
+        sendData(link);
+      }, getRandomInt(10,14)*1000);
+
+      
     }
   }, 3000); // Delay execution by 3 seconds for link search
 };
