@@ -2,8 +2,34 @@
 
 import React, { useEffect, useState } from 'react';
 
+function statusText(messages) {
+  /* Format:
+  chrome.runtime.sendMessage({
+        type: "Completed Privacy Policy Search",
+        data: foundLinks[0].href,
+      });
+  */
+
+  if (messages.length === 0) {
+    return "Analyzing...";
+  }
+
+  for (let i = 0; i < messages.length; i++) {
+    if (messages[i].type === "Completed Privacy Policy Search") {
+      return "Web scraping...";
+    } else if (messages[i].type === "webscraped") {
+      return "Running ML Models...";
+    } else if (messages[i].type === "Completed Analysis") {
+      return "Complete!";
+    }
+  }
+
+  return "Analyzing...";
+}
+
 function MessageReader() {
   const [messages, setMessages] = useState([]);
+  // const [status, setStatus] = useState("analyzing");
 
   useEffect(() => {
     // Get the current array of messages from storage
@@ -37,7 +63,7 @@ function MessageReader() {
       ))} */}
 
       <div style={{width: "100%", height: "100%"}}>
-        <p>Analyzing privacy policy...</p>
+        <p style={{textAlign: "center", width: "100%", marginTop: "24px", color: "white", fontSize: "18px", fontWeight: "bold"}}>{statusText(messages)}</p>
       </div>
 
       <div style={{width: "100%", height: "100%"}}>
